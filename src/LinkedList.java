@@ -33,6 +33,21 @@ public class LinkedList<T> {
 
     }
 
+    public void addAtEnd(T value) {
+        Node<T> newNode = new Node<>(value);
+        if (isEmpty()) {
+            head = newNode;
+            size++;
+            return;
+        }
+        Node<T> aux = head;
+        while (aux.getNext() != null) {
+            aux = aux.getNext();
+        }
+        aux.setNext(newNode);
+        size++;
+    }
+
     @Override
     public String toString() {
         if (isEmpty()) {
