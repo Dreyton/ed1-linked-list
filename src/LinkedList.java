@@ -48,6 +48,84 @@ public class LinkedList<T> {
         size++;
     }
 
+    public void addAtPosition(T value, int position) {
+        if (position == 0) {//AtStart
+            addAtStart(value);
+            return;
+        }
+
+        if (position == size) {//AtEnd
+            addAtEnd(value);
+            return;
+        }
+        //any position, not start or end
+        Node<T> newNode = new Node<>(value) ;
+        Node<T> aux = getNode(position - 1);
+        newNode.setNext(aux.getNext());
+        aux.setNext(newNode);
+        size++;
+    }
+
+    public int indexOf(T value) {
+        Node<T> aux = head;
+        int index = 0;
+        while (aux != null) {
+            if (aux.getValue() == value)
+                return index;
+            aux = aux.getNext();
+            index++;
+        }
+        return -1;
+    }
+
+    public boolean contains(T value) {
+        return indexOf(value) != -1;
+    }
+
+    public Node<T> getNode(int index) {
+        if(index < 0 || index >= size) {
+            return null;
+        }
+        Node<T> aux = head;
+        int i = 0;
+        while (i != index) {
+            aux = aux.getNext();
+            i++;
+        }
+        return aux;
+    }
+
+    public T removeAtPosition(int position) {
+        if (position < 0 || position >= size) {
+            return null;
+        }
+        T item = null;
+
+        //AtStart
+        if (position == 0) {
+            item = head.getValue();
+            head = head.getNext();
+            size--;
+            return item;
+        }
+        //AtEnd
+        Node<T> aux = null;
+        if (position == size - 1) {
+            item = getNode(position).getValue();
+            aux = getNode(position - 1);
+            aux.setNext(null);
+            size--;
+            return item;
+        }
+        //any position, not start or end
+        aux = getNode(position - 1);
+        item = aux.getValue();
+        aux.setNext(aux.getNext().getNext());
+        size--;
+
+        return item;
+    }
+
     @Override
     public String toString() {
         if (isEmpty()) {
